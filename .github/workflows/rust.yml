@@ -13,6 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./tracing-app-example
 
     steps:
     - uses: actions/checkout@v2
