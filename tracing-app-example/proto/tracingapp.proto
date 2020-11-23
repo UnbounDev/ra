@@ -1,0 +1,14 @@
+
+syntax = "proto3";
+
+package tracingapp;
+
+service TracingApp {
+    rpc GetVersion (EmptyRequest) returns (VersionResponse) {};
+}
+
+message EmptyRequest {}
+
+message VersionResponse {
+    string version = 1;
+}
