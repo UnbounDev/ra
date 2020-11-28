@@ -23,3 +23,17 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
+
+  push:
+    needs: [test]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./tracing-app-example
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker build
+      run: docker build -t unboundev/tracing-app .
+    #- name: Docker push
+    #  run: docker push docker.io/unboundev/tracing-app:latest
