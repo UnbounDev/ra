@@ -1,4 +1,4 @@
-name: Rust
+name: tracing-app-example
 
 on:
   push:
@@ -7,11 +7,11 @@ on:
     branches: [ main ]
 
 env:
+  RUST_LOG: debug
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
