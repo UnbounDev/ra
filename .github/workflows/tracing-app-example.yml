@@ -43,13 +43,13 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        #    - name: Build and Push to Docker Hub
-        #      id: docker_build
-        #      uses: docker/build-push-action@v2
-        #      with:
-        #        context: ./tracing-app-example
-        #        file: ./tracing-app-example/Dockerfile
-        #        push: true
-        #        tags: unboundev/tracing-app:latest
-        #    - name: Image digest
-        #      run echo ${{ steps.docker_build.outputs.digest }}
+    - name: Build and Push to Docker Hub
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        context: ./tracing-app-example
+        file: ./tracing-app-example/Dockerfile
+        push: true
+        tags: unboundev/tracing-app:latest
+    - name: Image digest
+      run echo ${{ steps.docker_build.outputs.digest }}
