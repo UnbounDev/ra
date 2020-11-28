@@ -8,6 +8,8 @@ use tracing_subscriber;
 use tracingapp::tracing_app_server::{TracingApp, TracingAppServer};
 use tracingapp::{EmptyRequest, VersionResponse};
 
+mod constants;
+
 pub mod tracingapp {
     tonic::include_proto!("tracingapp");
 }
@@ -22,6 +24,7 @@ impl TracingApp for App {
         &self,
         request: Request<EmptyRequest>,
     ) -> Result<Response<VersionResponse>, Status> {
+
         info!("Got a request: {:?}", request);
 
         let _now = trivial();
@@ -34,10 +37,22 @@ impl TracingApp for App {
     }
 }
 
-// usage: `RUST_LOG=trace cargo run --bin tracingexampleapp-server | jq .`
+// usage:
+// ```
+// RUST_LOG=trace cargo run --bin tracingapp-server
+// # in another shell
+// ./target/debug/tracingapp-client
+// # or w/ grpcurl
+// grpcurl -plaintext -import-path ./proto \
+//  -proto tracingapp.proto \
+//  -d '{}' \
+//  '127.0.0.1:8080' \
+//  tracingapp.TracingApp/GetVersion
+// ```
+//
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::1]:8080".parse()?;
+    let addr = constants::SERVER_ADDR.parse()?;
     let app = App::default();
 
     // install global collector configured based on RUST_LOG env var.
