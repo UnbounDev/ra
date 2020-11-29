@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracingapp
+  labels:
+    kind: tracingapp
+    app: ra
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ra
+      kind: tracingapp
+  template:
+    metadata:
+      labels:
+        app: ra
+        kind: tracingapp
+    spec:
+      containers:
+      - name: tracing-app
+        image: docker.io/unboundev/tracing-app
+        ports:
+        - containerPort: 8080
+          name: grpc
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: "0.1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracingapp
+  labels:
+    kind: tracingapp
+    app: ra
+spec:
+  ports:
+  - port: 80
+    targetPort: grpc
+    protocol: TCP
+  selector:
+    kind: tracingapp
